@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StateLM</title>
+<meta name="description" content="Low Inference Conversational Robots: Convergent Caching of Generative Behavior into Deterministic Dialogue Control">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    background: #ffffff;
+    color: #222222;
+    font-family: "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 20px 64px; }
+  header { text-align: center; margin-bottom: 40px; }
+  header p { text-align: center; }
+  h1 { font-size: 2.1em; line-height: 1.25; margin: 0 0 18px; font-weight: 700; }
+  .authors { font-size: 1.15em; margin: 0; }
+  .venue { color: #666666; margin: 4px 0 22px; }
+  .links a, .links span {
+    display: inline-block;
+    margin: 4px 5px;
+    padding: 7px 20px;
+    border-radius: 999px;
+    background: #363636;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95em;
+  }
+  .links span { background: #b5b5b5; }
+  .links a:hover { background: #111111; }
+  h2 { font-size: 1.55em; margin: 44px 0 14px; text-align: center; }
+  p { margin: 0 0 14px; text-align: justify; }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  figure { margin: 18px 0 30px; }
+  figure img, figure video { width: 100%; height: auto; display: block; border: 1px solid #e5e5e5; }
+  figcaption { font-size: 0.92em; color: #444444; margin-top: 8px; text-align: justify; }
+  .video { margin-bottom: 30px; }
+  .table-wrap { overflow-x: auto; margin-top: 18px; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.86em; line-height: 1.4; }
+  th, td { padding: 9px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd; }
+  thead th { border-bottom: 2px solid #333333; font-weight: 600; }
+  thead th small { display: block; font-weight: 400; color: #555555; }
+  td small { display: block; color: #666666; }
+  tr.ours td { background: #eef5f3; font-weight: 600; }
+  .y { color: #1d7a46; }
+  .n { color: #b3261e; }
+  .note { font-size: 0.92em; color: #444444; margin-top: 12px; }
+  code { font-size: 0.9em; background: #f3f3f3; padding: 1px 4px; border-radius: 3px; }
+  footer { text-align: center; color: #777777; font-size: 0.85em; margin-top: 56px; }
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.6em; }
+    p { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Low Inference Conversational Robots: Convergent Caching of Generative Behavior into Deterministic Dialogue Control</h1>
+  <p class="authors">Anonymous authors</p>
+  <p class="venue">Under double-blind review</p>
+  <div class="links">
+    <span title="The paper will be linked after the review">Paper (after review)</span>
+    <a href="https://github.com/StateLM-ICRA/statelm">Code</a>
+    <a href="https://github.com/StateLM-ICRA/statelm/tree/main/datasets">Data</a>
+    <a href="#results">Videos</a>
+  </div>
+</header>
+
+<h2>Abstract</h2>
+<p>Embodied conversational models enable privacy-preserving interaction, but existing approaches face a fundamental trade-off: deterministic models are predictable and offer low response latency but are inflexible, whereas language models handle linguistic variation at high inference cost. Hybrid systems often rely heavily on the generative component since real-world interactions are inherently unpredictable. In human-robot interaction (HRI), this matters when a robot must respond promptly while handling ambiguous requests and conversational failures. We study this tension in voice-guided crash-cart object retrieval, a controlled setting motivated by time-sensitive assistance.</p>
+<p>We introduce StateLM, an end-to-end architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching. Its key contribution is a novel semantic caching that maps verified, recurring SLM outputs into the FSM, while preserving task-critical constraints. Unlike existing caching methods that primarily reuse model responses, our cache safely expands the FSM itself and explicitly targets convergence, meaning that major interaction patterns are absorbed by the FSM.</p>
+<p>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures. Recovery strategies are learned from user-preference data unlike existing hard-coded approaches. Furthermore, we evaluated the complete model in an embodied user study.</p>
+<p>On unseen scenarios, StateLM's SLM calls fell from 100% to 30% as recurring patterns were mapped into the FSM. In a user study, 80% of StateLM turns used the FSM path at a median 1 ms, versus 11.1 s for SLM-path turns.</p>
+
+<h2>Contributions</h2>
+<ul>
+  <li>We introduced StateLM, an <em>end-to-end</em> architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching.</li>
+  <li>Its key contribution is a novel semantic caching that maps verified, recurring SLM outputs into the FSM, while preserving task-critical constraints. Unlike existing caching methods that primarily reuse model responses, our cache safely expands the FSM itself and explicitly targets convergence, meaning that major interaction patterns are absorbed by the FSM.</li>
+  <li>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures, unlike existing models tested on one challenge.</li>
+  <li>Recovery strategies are learned from user-preference data unlike existing hard-coded approaches.</li>
+  <li>Furthermore, we evaluated the complete model in an embodied user study.</li>
+</ul>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method family</th>
+      <th>Online<small>FSM grows during deployment</small></th>
+      <th>State-aware<small>a pattern is reused only in the dialogue state it was learned in</small></th>
+      <th>Task-safe<small>task-critical bindings (e.g., item and drawer) checked when added and at every reuse</small></th>
+      <th>Convergent<small>recurring patterns are absorbed into the FSM</small></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hybrid FSM / behavior tree + LLM<small>e.g., Axelsson and Skantze, BTGenBot, Merino-Fidalgo et al.</small></td>
+      <td><span class="n">&#10007;</span> graph fixed or regenerated</td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="n">&#10007;</span> LLM calls stay frequent</td>
+    </tr>
+    <tr>
+      <td>Semantic caching<small>e.g., vCache, Krites, ContextCache, SmartCache</small></td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="n">&#10007;</span> matched on text only</td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="n">&#10007;</span> target is hit precision or error rate</td>
+    </tr>
+    <tr>
+      <td>Agent memory and workflow reuse<small>e.g., Agent Workflow Memory, Speculate with Memory</small></td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="n">&#10007;</span> partial</td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="n">&#10007;</span> model still runs every step</td>
+    </tr>
+    <tr>
+      <td>Offline trace compilation<small>e.g., TraceCompiler</small></td>
+      <td><span class="n">&#10007;</span> offline batch</td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="n">&#10007;</span></td>
+    </tr>
+    <tr>
+      <td>Automata extraction<small>e.g., Weiss et al., Koul et al.</small></td>
+      <td><span class="n">&#10007;</span> offline, from a fixed model</td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="n">&#10007;</span></td>
+      <td><span class="y">&#10003;</span> but offline, not in deployment</td>
+    </tr>
+    <tr>
+      <td>Teacher-student distillation, online learning<small>e.g., policy distillation, Bastani et al.</small></td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="n">&#10007;</span> no explicit dialogue state</td>
+      <td><span class="n">&#10007;</span> student copies teacher errors</td>
+      <td><span class="y">&#10003;</span> but changes parameters, not a cache</td>
+    </tr>
+    <tr class="ours">
+      <td>StateLM (ours)</td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="y">&#10003;</span></td>
+      <td><span class="y">&#10003;</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="note"><strong>Why state-aware.</strong> The same words can need a different reply at a different point in the dialogue. "Which?" after a request asks to clarify; after an answer it asks to repeat.</p>
+<p class="note"><strong>Why convergent.</strong> A task-specific robot hears the same kinds of requests again and again. The FSM absorbs these, so over time it answers most requests itself, fast and predictably, while the SLM stays in the loop for any situation the FSM has not yet seen, so the flexibility of a generative model is never lost.</p>
+
+<h2>Architecture</h2>
+<figure>
+  <img src="static/architecture.png" alt="StateLM architecture: offline development, online inference with state-aware routing between the FSM and the fine-tuned SLM, caching of verified patterns into the FSM, and robot execution.">
+  <figcaption>Overall architecture of StateLM. The system uses an initial FSM and fine-tuned SLM built from human-robot dialogue data. At runtime, a state-aware router selects between the deterministic FSM and the generative SLM. Verified SLM responses are cached and merged into the FSM for online improvement. The selected response is executed on the robot, and execution feedback is used for continual adaptation.</figcaption>
+</figure>
+
+<h2>Evaluation</h2>
+<p>We stress-tested StateLM on:</p>
+<ul>
+  <li>Routine item requests with varied phrasing</li>
+  <li>Out-of-inventory items</li>
+  <li>Ambiguous category requests</li>
+  <li>Corrupted inputs (misspelling, accent)</li>
+  <li>Off-topic queries</li>
+  <li>Corrupted dialogue history</li>
+  <li>Different staged failure types</li>
+</ul>
+
+<h2 id="results">Results</h2>
+
+<div class="video">
+  <figure>
+    <video controls playsinline preload="metadata" poster="static/statelm_overview.jpg">
+      <source src="static/statelm_overview.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Overview.</strong> Item retrieval on the crash cart with a Raspberry Pi 5. The SLM-only baseline (Gemma-2-2B) needs 14 s per answer; the FSM-only baseline answers in 0.00 s but fails on an item that is not stocked. StateLM handles routine, ambiguous and unlisted requests, followed by the contributions, the architecture, the convergence on the real deployment stream, and a recovery from a vague drawer instruction served by the FSM without an SLM call.</figcaption>
+  </figure>
+</div>
+
+<figure>
+  <img src="static/hardware.jpg" alt="Medical cart with numbered drawers, a monitor, keyboard and mouse, a camera on a tripod, a Raspberry Pi and a microphone-speaker.">
+  <figcaption><strong>Hardware.</strong> A medical cart with five numbered drawers. The dialogue system runs on a Raspberry Pi 5 on the cart; a USB microphone and speaker handle speech, and a camera on a tripod records the trials.</figcaption>
+</figure>
+
+<div class="video">
+  <figure>
+    <video controls muted playsinline preload="metadata" poster="static/statelm_chat.jpg">
+      <source src="static/statelm_chat.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>StateLM in a text chat.</strong> Every robot turn shows which path answered it (<code>source=slm</code> or <code>source=fsm</code>) and the cosine similarity of the matched pattern. The recording covers an ambiguous request with a clarification, the same request repeated until the FSM answers it instead of the SLM, and a wrong robot answer injected on purpose followed by the user's correction.</figcaption>
+  </figure>
+</div>
+
+<div class="video">
+  <figure>
+    <video controls muted playsinline preload="metadata" poster="static/fsm_only_chat.jpg">
+      <source src="static/fsm_only_chat.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>FSM-only baseline.</strong> An ambiguous request ("where is the tape") with a clarification, the follow-up answer ("blue one"), an item that is not in the inventory ("bag"), and an off-topic question.</figcaption>
+  </figure>
+</div>
+
+<!-- To add a video: put the .mp4 file in static/ and copy one <div class="video"> block above, changing the file name and caption. -->
+
+<h2>Code and data</h2>
+<p>All versions are in one <a href="https://github.com/StateLM-ICRA/statelm">repository</a>. Each folder has a README with the commands to run it.</p>
+<ul>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/slm_qwen3">slm_qwen3</a>: SLM fine-tuned from Qwen3-4B</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/slm_gemma2b">slm_gemma2b</a>: SLM fine-tuned from Gemma-2-2B</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/fsm_handcrafted">fsm_handcrafted</a>: FSM-only baseline</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/fsm_data_induced">fsm_data_induced</a>: FSM induced from successful trials</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/hybrid_qwen3_fsm">hybrid_qwen3_fsm</a>: Qwen3 SLM with a hand-written FSM, without caching</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/cache_v1">cache_v1</a>, <a href="https://github.com/StateLM-ICRA/statelm/tree/main/cache_v2">cache_v2</a>, <a href="https://github.com/StateLM-ICRA/statelm/tree/main/cache_v3">cache_v3</a>: three versions of the caching policy; cache_v3 runs on the real deployment stream</li>
+  <li><a href="https://github.com/StateLM-ICRA/statelm/tree/main/datasets">datasets</a>: trial labels, recovery preferences and the generated behavior supplements</li>
+</ul>
+
+<footer>Anonymous submission. Please do not distribute.</footer>
+
+</main>
+</body>
+</html>
