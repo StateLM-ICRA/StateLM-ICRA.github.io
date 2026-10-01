@@ -162,7 +162,7 @@
 
 <h2>Architecture</h2>
 <figure>
-  <img src="static/architecture.png" alt="StateLM architecture: offline development, online inference with state-aware routing between the FSM and the fine-tuned SLM, caching of verified patterns into the FSM, and robot execution.">
+  <img src="architecture.png" alt="StateLM architecture: offline development, online inference with state-aware routing between the FSM and the fine-tuned SLM, caching of verified patterns into the FSM, and robot execution.">
   <figcaption>Overall architecture of StateLM. The system uses an initial FSM and fine-tuned SLM built from human-robot dialogue data. At runtime, a state-aware router selects between the deterministic FSM and the generative SLM. Verified SLM responses are cached and merged into the FSM for online improvement. The selected response is executed on the robot, and execution feedback is used for continual adaptation.</figcaption>
 </figure>
 
@@ -182,22 +182,22 @@
 
 <div class="video">
   <figure>
-    <video controls playsinline preload="metadata" poster="static/statelm_overview.jpg">
-      <source src="static/statelm_overview.mp4" type="video/mp4">
+    <video controls playsinline preload="metadata" poster="statelm_overview.jpg">
+      <source src="statelm_overview.mp4" type="video/mp4">
     </video>
     <figcaption><strong>Overview.</strong> Item retrieval on the crash cart with a Raspberry Pi 5. The SLM-only baseline (Gemma-2-2B) needs 14 s per answer; the FSM-only baseline answers in 0.00 s but fails on an item that is not stocked. StateLM handles routine, ambiguous and unlisted requests, followed by the contributions, the architecture, the convergence on the real deployment stream, and a recovery from a vague drawer instruction served by the FSM without an SLM call.</figcaption>
   </figure>
 </div>
 
 <figure>
-  <img src="static/hardware.jpg" alt="Medical cart with numbered drawers, a monitor, keyboard and mouse, a camera on a tripod, a Raspberry Pi and a microphone-speaker.">
+  <img src="hardware.jpg" alt="Medical cart with numbered drawers, a monitor, keyboard and mouse, a camera on a tripod, a Raspberry Pi and a microphone-speaker.">
   <figcaption><strong>Hardware.</strong> A medical cart with five numbered drawers. The dialogue system runs on a Raspberry Pi 5 on the cart; a USB microphone and speaker handle speech, and a camera on a tripod records the trials.</figcaption>
 </figure>
 
 <div class="video">
   <figure>
-    <video controls muted playsinline preload="metadata" poster="static/statelm_chat.jpg">
-      <source src="static/statelm_chat.mp4" type="video/mp4">
+    <video controls muted playsinline preload="metadata" poster="statelm_chat.jpg">
+      <source src="statelm_chat.mp4" type="video/mp4">
     </video>
     <figcaption><strong>StateLM in a text chat.</strong> Every robot turn shows which path answered it (<code>source=slm</code> or <code>source=fsm</code>) and the cosine similarity of the matched pattern. The recording covers an ambiguous request with a clarification, the same request repeated until the FSM answers it instead of the SLM, and a wrong robot answer injected on purpose followed by the user's correction.</figcaption>
   </figure>
@@ -205,14 +205,14 @@
 
 <div class="video">
   <figure>
-    <video controls muted playsinline preload="metadata" poster="static/fsm_only_chat.jpg">
-      <source src="static/fsm_only_chat.mp4" type="video/mp4">
+    <video controls muted playsinline preload="metadata" poster="fsm_only_chat.jpg">
+      <source src="fsm_only_chat.mp4" type="video/mp4">
     </video>
     <figcaption><strong>FSM-only baseline.</strong> An ambiguous request ("where is the tape") with a clarification, the follow-up answer ("blue one"), an item that is not in the inventory ("bag"), and an off-topic question.</figcaption>
   </figure>
 </div>
 
-<!-- To add a video: put the .mp4 file in static/ and copy one <div class="video"> block above, changing the file name and caption. -->
+<!-- To add a video: put the .mp4 file in  and copy one <div class="video"> block above, changing the file name and caption. -->
 
 <h2>Code and data</h2>
 <p>All versions are in one <a href="https://github.com/StateLM-ICRA/statelm">repository</a>. Each folder has a README with the commands to run it.</p>
