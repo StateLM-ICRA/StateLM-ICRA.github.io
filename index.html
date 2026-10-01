@@ -49,7 +49,8 @@
   .clips figure { margin: 0; }
   .clips video { aspect-ratio: 9 / 16; object-fit: cover; }
   .clips figcaption { text-align: left; font-size: 0.88em; }
-  @media (max-width: 900px) { .clips { grid-template-columns: repeat(2, 1fr); } }
+    .clips.three { grid-template-columns: repeat(3, 1fr); max-width: calc(75% - 4.5px); margin-left: auto; margin-right: auto; }
+  @media (max-width: 900px) { .clips, .clips.three { grid-template-columns: repeat(2, 1fr); max-width: none; } }
   .table-wrap { overflow-x: auto; margin-top: 18px; }
   table { border-collapse: collapse; width: 100%; font-size: 0.86em; line-height: 1.4; }
   th, td { padding: 9px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd; }
@@ -242,8 +243,8 @@
 
 
 <h3>Interaction examples on the robot</h3>
-<p>Staged failures are introduced by the operator; the participant then responds naturally. Captions show the spoken turns.</p>
-<div class="clips">
+<p>Captions show the spoken turns.</p>
+<div class="clips three">
   <figure>
     <video controls playsinline preload="metadata" poster="routine_request.jpg">
       <source src="routine_request.mp4" type="video/mp4">
@@ -263,6 +264,10 @@
     <figcaption><strong>Unavailable item.</strong> “Where is the keyboard?” is not in the inventory, and the robot says so instead of guessing a drawer.</figcaption>
   </figure>
   <figure>
+    </div>
+    <h3>Recovery from staged failures</h3>
+    <p>Staged failures are introduced by the operator; the participant then responds naturally.</p>
+    <div class="clips">
     <video controls playsinline preload="metadata" poster="wrong_drawer.jpg">
       <source src="wrong_drawer.mp4" type="video/mp4">
     </video>
