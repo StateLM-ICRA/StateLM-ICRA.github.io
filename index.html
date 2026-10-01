@@ -37,6 +37,7 @@
   .links span { background: #b5b5b5; }
   .links a:hover { background: #111111; }
   h2 { font-size: 1.55em; margin: 44px 0 14px; text-align: center; }
+  h3 { font-size: 1.2em; margin: 30px 0 8px; }
   p { margin: 0 0 14px; text-align: justify; }
   ul { margin: 0 0 14px; padding-left: 22px; }
   li { margin-bottom: 6px; }
@@ -44,6 +45,11 @@
   figure img, figure video { width: 100%; height: auto; display: block; border: 1px solid #e5e5e5; }
   figcaption { font-size: 0.92em; color: #444444; margin-top: 8px; text-align: justify; }
   .video { margin-bottom: 30px; }
+  .clips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 18px 0 30px; }
+  .clips figure { margin: 0; }
+  .clips video { aspect-ratio: 9 / 16; object-fit: cover; }
+  .clips figcaption { text-align: left; font-size: 0.88em; }
+  @media (max-width: 900px) { .clips { grid-template-columns: repeat(2, 1fr); } }
   .table-wrap { overflow-x: auto; margin-top: 18px; }
   table { border-collapse: collapse; width: 100%; font-size: 0.86em; line-height: 1.4; }
   th, td { padding: 9px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd; }
@@ -193,12 +199,57 @@
   <figcaption><strong>Hardware.</strong> A medical cart with five numbered drawers. The dialogue system runs on a Raspberry Pi 5 on the cart; a USB microphone and speaker handle speech, and a camera on a tripod records the trials.</figcaption>
 </figure>
 
-<div class="video">
+
+<h3>Interaction examples on the robot</h3>
+<p>Staged failures are introduced by the operator; the participant then responds naturally. Captions show the spoken turns.</p>
+<div class="clips">
   <figure>
-    <video controls muted playsinline preload="metadata" poster="statelm_chat.jpg">
-      <source src="statelm_chat.mp4" type="video/mp4">
+    <video controls playsinline preload="metadata" poster="routine_request.jpg">
+      <source src="routine_request.mp4" type="video/mp4">
     </video>
-    <figcaption><strong>StateLM in a text chat.</strong> Every robot turn shows which path answered it (<code>source=slm</code> or <code>source=fsm</code>) and the cosine similarity of the matched pattern. The recording covers an ambiguous request with a clarification, the same request repeated until the FSM answers it instead of the SLM, and a wrong robot answer injected on purpose followed by the user's correction.</figcaption>
+    <figcaption><strong>Routine request.</strong> “Where are the LEDs?” is answered from the FSM in drawer 1.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="ambiguous_request.jpg">
+      <source src="ambiguous_request.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Ambiguous request.</strong> “I need tape” matches three items, so the robot asks which one; “blue tape” resolves it to drawer 1.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="unavailable_item.jpg">
+      <source src="unavailable_item.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Unavailable item.</strong> “Where is the keyboard?” is not in the inventory, and the robot says so instead of guessing a drawer.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="wrong_drawer.jpg">
+      <source src="wrong_drawer.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Wrong drawer, corrected.</strong> The staged answer sends the user to drawer 1 for the hand sanitizer. After “no, it’s not” the robot corrects the location to drawer 5.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="wrong_item_wires.jpg">
+      <source src="wrong_item_wires.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Wrong item, corrected.</strong> The staged answer names the blue tape. “I asked for the wires” is resolved to the requested item in drawer 3.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="wrong_item_wipes.jpg">
+      <source src="wrong_item_wipes.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Wrong item, corrected.</strong> The staged answer names the face masks. “I asked for the wipes, not the face mask” is resolved to the wipes in drawer 5.</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="vague_instruction.jpg">
+      <source src="vague_instruction.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>Vague instruction, corrected.</strong> The staged answer is “Open the drawer” with no number. The robot repairs it to “The battery is in drawer 2.”</figcaption>
+  </figure>
+  <figure>
+    <video controls playsinline preload="metadata" poster="slm_only.jpg">
+      <source src="slm_only.mp4" type="video/mp4">
+    </video>
+    <figcaption><strong>SLM-only baseline.</strong> The same requests answered by the language model alone on the Raspberry Pi 5. Each reply takes several seconds.</figcaption>
   </figure>
 </div>
 
