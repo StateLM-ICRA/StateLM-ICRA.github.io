@@ -172,7 +172,43 @@
 </figure>
 
 <h2>Evaluation</h2>
-<p>We stress-tested StateLM on:</p>
+<p>We evaluate StateLM in two settings: offline, on recorded human-robot dialogues, and online, in a user study on a physical crash cart.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Offline experiments</th>
+      <th>Online user study</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Setting</strong></td>
+      <td>RFM-HRI crash-cart corpus; participant-held-out 5-fold cross-validation</td>
+      <td>Within-participant study, 21 participants, lab crash cart; models run on a Raspberry Pi 5</td>
+    </tr>
+    <tr>
+      <td><strong>Independent variable</strong></td>
+      <td>Configuration: FSM-only, base SLM, fine-tuned SLM, StateLM</td>
+      <td>Dialogue controller: FSM-only, SLM-only, StateLM</td>
+    </tr>
+    <tr>
+      <td><strong>Dependent variables</strong></td>
+      <td>Task correctness (behavioral, drawer-retrieval and clarification accuracy), agreement of the recovery strategy with user preference, share of turns handled by the FSM, response latency</td>
+      <td>Objective: behavioral accuracy, response latency, recovery behavior. Subjective: trust, usability (SUS), workload (NASA-TLX); secondary: Godspeed, satisfaction</td>
+    </tr>
+    <tr>
+      <td><strong>Trials</strong></td>
+      <td>200 clean samples from 41 participants</td>
+      <td>360 trials: 282 item requests (StateLM 115, FSM-only 110, SLM-only 57) and 78 staged-failure recovery trials (StateLM 33, FSM-only 23, SLM-only 22)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p style="margin-top:18px">Offline stress tests:</p>
 <ul>
   <li>Routine item requests with varied phrasing</li>
   <li>Out-of-inventory items</li>
