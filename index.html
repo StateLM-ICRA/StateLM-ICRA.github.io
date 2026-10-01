@@ -93,7 +93,7 @@
 <ul>
   <li>We introduced StateLM, an <em>end-to-end</em> architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching.</li>
   <li>Its key contribution is a novel semantic caching that maps verified, recurring SLM outputs into the FSM, while preserving task-critical constraints. Unlike existing caching methods that primarily reuse model responses, our cache safely expands the FSM itself and explicitly targets convergence, meaning that major interaction patterns are absorbed by the FSM.</li>
-  <li>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures, unlike existing models tested on one challenge.</li>
+  <li>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures, unlike typical studies that focus on one of these challenges.</li>
   <li>Recovery strategies are learned from user-preference data unlike existing hard-coded approaches.</li>
       <li>Furthermore, we evaluated the complete model in an embodied user study with 360 trials (StateLM, FSM-only, SLM-only).</li>
 </ul>
