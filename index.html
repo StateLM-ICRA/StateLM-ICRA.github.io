@@ -90,15 +90,6 @@
 <p>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures. Recovery strategies are learned from user-preference data unlike existing hard-coded approaches. Furthermore, we evaluated the complete model in an embodied user study.</p>
 <p>On unseen scenarios, StateLM's SLM calls fell from 100% to 30% as recurring patterns were mapped into the FSM. In the user study (earlier SLM), 80% of StateLM turns were answered by the deterministic FSM path in about 1 ms, while turns routed to the SLM took a median of 11.1 s. The retrained SLM now answers in about 1.3 s on the same Raspberry Pi (see Updates).</p>
 
-<section id="updates">
-  <h2>Updates</h2>
-  <ul>
-    <li><b>October 2026: faster SLM on the Raspberry Pi.</b> We retrained the SLM (Gemma-2-2B) and now serve it with llama.cpp using <code>--swa-full</code>, so the prompt is no longer re-processed on every call. In an offline evaluation on the Pi (131 requests), the median SLM response time dropped from about 11 s to 1.3 s, and 120 of 131 requests were answered correctly.</li>
-    <li><b>Latency numbers in the abstract.</b> The 1 ms median refers to turns answered by the FSM path. The 11.1 s median refers to turns routed to the earlier SLM in the user study. The videos and user-study results on this page were recorded with that earlier SLM, so SLM turns in them take about 11 s.</li>
-    <li><b>Convergence numbers.</b> The drop in SLM calls from 100% to 30% in the abstract was measured on 972 synthetic requests. Fig. 2 has since been updated to real interaction data (186 turns from real failure trials plus 36 augmented turns): there, the FSM serves 72% of turns in the last window and 60.4% overall.</li>
-  </ul>
-</section>
-
 <h2>Contributions</h2>
 <ul>
   <li>We introduced StateLM, an <em>end-to-end</em> architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching.</li>
@@ -314,6 +305,16 @@
 
 <!-- To add a video: put the .mp4 file in static/ and copy one <div class="video"> block above, changing the file name and caption. -->
 
+<section id="updates">
+  <h2>Updates</h2>
+  <ul>
+    <li><b>October 2026: faster SLM on the Raspberry Pi.</b> We retrained the SLM (Gemma-2-2B) and now serve it with llama.cpp using <code>--swa-full</code>, so the prompt is no longer re-processed on every call. In an offline evaluation on the Pi (131 requests), the median SLM response time dropped from about 11 s to 1.3 s, and 120 of 131 requests were answered correctly.</li>
+    <li><b>Latency numbers in the abstract.</b> The 1 ms median refers to turns answered by the FSM path. The 11.1 s median refers to turns routed to the earlier SLM in the user study. The videos and user-study results on this page were recorded with that earlier SLM, so SLM turns in them take about 11 s.</li>
+    <li><b>Convergence numbers.</b> The drop in SLM calls from 100% to 30% in the abstract was measured on 972 synthetic requests. Fig. 2 has since been updated to real interaction data (186 turns from real failure trials plus 36 augmented turns): there, the FSM serves 72% of turns in the last window and 60.4% overall.</li>
+  </ul>
+</section>
+
+  
 <h2 id="questionnaires">Questionnaires</h2>
 <ul>
   <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSd3wpZrHZF6itXkoX0gbn6UPMlOIHuCUuTVqCGYKVtyj6TzcQ/viewform" target="_blank" rel="noopener">Part 1: Trust after the failure</a> (after each system)</li>
