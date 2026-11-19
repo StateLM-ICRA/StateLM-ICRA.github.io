@@ -85,19 +85,17 @@
     
   </div>
 </header>
-
+<p style="margin:0 auto 10px; max-width:760px; background:#eef5f3; border-radius:8px; padding:10px 16px; text-align:center; font-size:0.95em;"><strong>We have continued developing StateLM since submission,</strong> and this page includes the latest results. See <a href="#updates">Updates</a>.</p>
 <h2>Abstract</h2>
 <p>Embodied conversational models enable privacy-preserving interaction, but existing approaches face a fundamental trade-off: deterministic models are predictable and offer low response latency but are inflexible, whereas language models handle linguistic variation at high inference cost. Hybrid systems often rely heavily on the generative component since real-world interactions are inherently unpredictable. In human-robot interaction (HRI), this matters when a robot must respond promptly while handling ambiguous requests and conversational failures. We study this tension in voice-guided crash-cart object retrieval, a controlled setting motivated by time-sensitive assistance.</p>
 <p>We introduce StateLM, an end-to-end architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching. Its key contribution is a novel semantic caching that maps verified, recurring SLM outputs into the FSM, while preserving task-critical constraints. Unlike existing caching methods that primarily reuse model responses, our cache safely expands the FSM itself and explicitly targets convergence, meaning that major interaction patterns are absorbed by the FSM.</p>
 <p>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures. Recovery strategies are learned from user-preference data unlike existing hard-coded approaches. Furthermore, we evaluated the complete model in an embodied user study.</p>
-<p>On unseen scenarios, StateLM's SLM calls fell from 100% to 30% as recurring patterns were mapped into the FSM. In the user study (earlier SLM), 80% of StateLM turns were answered by the deterministic FSM path in about 1 ms, while turns routed to the SLM took a median of 11.1 s. The retrained SLM now answers in about 1.3 s on the same crash cart (see <a href="#updates">Updates</a>).</p>
-<h2>Contributions</h2>
-<ul>
+<p>On unseen scenarios, StateLM's SLM calls fell from 100% to 30% as recurring patterns were mapped into the FSM. In the user study (earlier SLM), 80% of StateLM turns were answered by the deterministic FSM path in about 1 ms, while turns routed to the SLM took a median of 11.1 s. The retrained SLM now answers in about 1.3 s on the same crash cart (see <a href="#updates">Updates</a>). In a second user study with online caching (19 participants), StateLM named the correct drawer after 97% of staged failures and answered 95% of recoveries from the cache. Compared with a 14B language model running on a cloud GPU, it never gave wrong drawer information and was trusted more after each recovery (see <a href="#user-studies">User study results</a>).</p>
   <li>We introduced StateLM, an <em>end-to-end</em> architecture that combines a data-induced finite-state machine (FSM), a fine-tuned small language model (SLM), state-aware routing, and efficient online caching.</li>
   <li>Its key contribution is a novel semantic caching that maps verified, recurring SLM outputs into the FSM, while preserving task-critical constraints. Unlike existing caching methods that primarily reuse model responses, our cache safely expands the FSM itself and explicitly targets convergence, meaning that major interaction patterns are absorbed by the FSM.</li>
   <li>On the human-robot interaction (HRI) side, we present a single model (StateLM) that handles a broad range of challenges in an object-retrieval testbed: misspellings, ambiguities, unavailable items, and recovery from different types of intentionally induced robot failures, unlike typical studies that focus on one of these challenges.</li>
   <li>Recovery strategies are learned from user-preference data unlike existing hard-coded approaches.</li>
-      <li>Furthermore, we evaluated the complete model in an embodied user study with 360 trials (StateLM, FSM-only, SLM-only).</li>
+      <li>Furthermore, we evaluated the complete model in three embodied user studies with 551 trials and 46 participants, comparing StateLM with FSM-only, SLM-only and a Language model only baseline.</li>
 </ul>
 
 <div class="table-wrap">
@@ -182,19 +180,19 @@
     <tr>
       <th></th>
       <th>Offline experiments</th>
-      <th>Online user study</th>
+      <th>Online user studies</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><strong>Setting</strong></td>
       <td>RFM-HRI crash-cart corpus; participant-held-out 5-fold cross-validation</td>
-      <td>Within-participant study, 21 participants, lab crash cart; models run on a Raspberry Pi 5</td>
+      <td>Study 1: within-participant, 21 participants.<br>Study 2: StateLM with online caching, 19 participants.<br>Study 3: Language model only baseline, 6 participants.<br>Lab crash cart; models run on a Raspberry Pi 5 (Study 3: language model on a cloud GPU)</td>
     </tr>
     <tr>
       <td><strong>Independent variable</strong></td>
       <td>Configuration: FSM-only, base SLM, fine-tuned SLM, StateLM</td>
-      <td>Dialogue controller: FSM-only, SLM-only, StateLM</td>
+      <td>Dialogue controller: FSM-only, SLM-only, StateLM (Study 1); StateLM with caching vs. Language model only (Studies 2 and 3)</td>
     </tr>
     <tr>
       <td><strong>Dependent variables</strong></td>
@@ -204,7 +202,7 @@
     <tr>
       <td><strong>Trials</strong></td>
       <td>RFM-HRI dataset: 200 clean samples from 41 participants</td>
-      <td>360 trials (StateLM, FSM-only, SLM-only), including item requests and staged-failure recovery trials</td>
+      <td>Study 1: 360 trials (StateLM, FSM-only, SLM-only), including item requests and staged-failure recovery trials.<br>Study 2: 61 requests and 59 recovery trials. Study 3: 19 requests and 18 recovery trials</td>
     </tr>
   </tbody>
 </table>
@@ -243,6 +241,50 @@
 </figure>
 
 
+<h3 id="user-studies">User study results</h3>
+<p><strong>Study 1: StateLM vs. FSM-only vs. SLM-only</strong> (21 participants, within-participant). Rates are fractions; ratings are rescaled to 0–1.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Measure</th><th>FSM-only</th><th>SLM-only</th><th>StateLM (ours)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Correct behavior on requests</td><td>0.70</td><td>0.63</td><td><strong>1.00</strong></td></tr>
+    <tr><td>Ambiguous item: asks for clarification</td><td>1.00</td><td><span class="n">0.00</span></td><td><strong>1.00</strong></td></tr>
+    <tr><td>Item not in the cart: says so</td><td><span class="n">0.00</span></td><td>0.92</td><td><strong>1.00</strong></td></tr>
+    <tr><td>Recovery after failure: correct drawer</td><td>0.00</td><td>0.86</td><td><strong>0.88</strong></td></tr>
+    <tr><td>Turns answered by the FSM (~1 ms)</td><td>1.00</td><td>0.00</td><td>0.80</td></tr>
+    <tr><td>Trust after failure</td><td>0.34</td><td>0.39</td><td><strong>0.64</strong></td></tr>
+    <tr><td>Usability (SUS)</td><td>0.58</td><td>0.55</td><td><strong>0.69</strong></td></tr>
+    <tr><td>Robot impression (Godspeed)</td><td>0.51</td><td>0.48</td><td><strong>0.75</strong></td></tr>
+    <tr><td>Overall satisfaction</td><td>0.39</td><td>0.50</td><td><strong>0.75</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p style="margin-top:22px"><strong>Studies 2 and 3: StateLM with caching vs. Language model only</strong> (Qwen2.5-14B on a cloud GPU, same task and staged failures).</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Measure</th><th>Language model only<small>6 participants</small></th><th>StateLM with caching (ours)<small>19 participants</small></th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Wrong drawer information told to the participant</td><td><span class="n">4</span> (2 participants)</td><td><strong>0</strong></td></tr>
+    <tr><td>Requests answered correctly</td><td>16/19</td><td><strong>58/59</strong></td></tr>
+    <tr><td>Ambiguous item: asks for clarification</td><td>4/7</td><td><strong>21/21</strong></td></tr>
+    <tr><td>Recovery after failure: correct drawer</td><td>17/18</td><td><strong>57/59</strong></td></tr>
+    <tr><td>Recoveries answered by the cache</td><td>–</td><td><strong>95%</strong> (median 0.001 s)</td></tr>
+    <tr><td>Median response time, requests</td><td>1.6 s</td><td><strong>0.02 s</strong> (FSM), 0.98 s (SLM)</td></tr>
+    <tr><td>Runs on</td><td>Cloud GPU</td><td><strong>Raspberry Pi 5</strong></td></tr>
+    <tr><td>Trust right after each recovery (0–1)</td><td>0.53</td><td><strong>0.81</strong></td></tr>
+    <tr><td>Recoveries liked as they were</td><td>0.07</td><td><strong>0.53</strong></td></tr>
+    <tr><td>Robot impression (Godspeed, 0–1)</td><td>0.61</td><td><strong>0.82</strong></td></tr>
+    <tr><td>Overall trust at the end (0–1)</td><td>0.64</td><td><strong>0.85</strong></td></tr>
+    <tr><td>Usability (SUS, 6 items, 0–1)</td><td>0.64</td><td><strong>0.82</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note">Example of wrong drawer information: asked for the pencils, the language model said the red pencils are in drawer 2 (they are in drawer 3). Questionnaires: StateLM n=15, Language model only n=5 (one questionnaire excluded because that participant's failure trials ran on the wrong system and were repeated the next day). Trust after each recovery, recovery liking and Godspeed differ significantly (Mann-Whitney, p &lt; 0.05). Small samples; results are preliminary.</p>
 <h3>Interaction examples on the robot</h3>
 <p>Captions show the spoken turns.</p>
 
@@ -309,6 +351,7 @@
 <section id="updates">
   <h2>Updates</h2>
   <ul>
+          <li><b>November 2026: two more user studies.</b> Study 2 ran StateLM with online caching on the crash cart (19 participants); Study 3 compared it with a Language model only baseline, a 14B language model on a cloud GPU (6 participants). See <a href="#user-studies">User study results</a>.</li>
        <li><b>October 2026: faster SLM on the crash cart.</b> We retrained the SLM (Gemma-2-2B) and now serve it with llama.cpp using <code>--swa-full</code>, so the prompt is no longer re-processed on every call. Across 131 requests on the crash cart, the median SLM response time dropped from about 11 s to 1.3 s.</li>    <li><b>Latency numbers in the abstract.</b> The 1 ms median refers to turns answered by the FSM path. The 11.1 s median refers to turns routed to the earlier SLM in the user study. The videos and user-study results on this page were recorded with that earlier SLM, so SLM turns in them take about 11 s.</li>
        <li><b>Convergence figure.</b> Fig. 2 has been updated to show convergence on the real deployment stream (see <a href="#results">Results</a>). With a better choice of parameters, convergence is faster than in the original figure.</li>  </ul>
 </section>
